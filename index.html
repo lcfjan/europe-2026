@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Europe Trip — Aug 15–30, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410; --paper: #faf8f3; --card: #ffffff; --muted: #7a7067;
+    --accent: #c94b2a; --accent2: #2e5d4b; --accent3: #1d3557;
+    --gold: #b8860b; --border: rgba(26,20,16,0.1);
+    --shadow: 0 2px 20px rgba(26,20,16,0.07); --r: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  .hero { background: var(--ink); color: var(--paper); padding: 3rem 1.5rem 2.5rem; position: relative; overflow: hidden; }
+  .hero::before { content: 'EUROPE'; position: absolute; right: -0.05em; top: -0.1em; font-family: 'Playfair Display', serif; font-size: clamp(70px,25vw,130px); color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; letter-spacing: -0.02em; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 0.75rem; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,8vw,3.2rem); font-weight: 700; line-height: 1.15; margin-bottom: 0.5rem; }
+  .hero-sub { font-size: 14px; color: rgba(250,248,243,0.55); margin-bottom: 1.5rem; font-weight: 300; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hero-pill { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 99px; padding: 5px 14px; font-size: 12px; color: rgba(250,248,243,0.75); }
+  .container { max-width: 680px; margin: 0 auto; padding: 0 1rem; }
+  .section-header { padding: 2rem 0 0.75rem; display: flex; align-items: center; gap: 10px; }
+  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+  .booking-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1rem; box-shadow: var(--shadow); }
+  .booking-airline { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .booking-ref { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: 0.05em; }
+  .booking-who { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .booking-route { font-size: 12px; color: var(--accent3); font-weight: 500; margin-top: 4px; }
+
+  .transport-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.25rem; margin-top: 1rem; box-shadow: var(--shadow); }
+  .transport-box h4 { font-size: 13px; font-weight: 600; margin-bottom: 0.75rem; color: var(--ink); }
+  .transport-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+  .transport-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+  .t-blue { background: #e3f0fb; } .t-green { background: #e3f5ec; } .t-amber { background: #fef3e0; }
+  .transport-text { color: var(--muted); line-height: 1.5; }
+  .transport-text b { color: var(--ink); font-weight: 500; }
+
+  .day-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; box-shadow: var(--shadow); }
+  .day-header { display: flex; align-items: center; gap: 14px; padding: 1rem 1.25rem; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+  .day-header:active { background: var(--paper); }
+  .day-num { width: 46px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .day-meta { flex: 1; min-width: 0; }
+  .day-date { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 1px; }
+  .day-title { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+  .day-tagline { font-size: 12px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .day-chevron { color: var(--muted); font-size: 11px; transition: transform 0.25s; flex-shrink: 0; }
+  .day-chevron.open { transform: rotate(180deg); }
+  .day-body { display: none; border-top: 1px solid var(--border); }
+  .day-body.open { display: block; }
+
+  .info-card { background: #f5f1e8; border: 1px solid rgba(184,134,11,0.18); }
+  .info-card .day-header:active { background: #ede8d8; }
+  .info-card .day-num { background: rgba(184,134,11,0.15) !important; color: var(--gold) !important; }
+  .info-divider { border: none; border-top: 2px solid var(--border); margin: 2.5rem 0 1.5rem; position: relative; }
+  .info-divider::after { content: 'Reference'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--paper); padding: 0 12px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+
+  .alert { background: #fef9ec; border-left: 3px solid var(--gold); padding: 0.85rem 1rem 0.85rem 1.25rem; margin: 0; font-size: 13px; color: #5a4500; line-height: 1.6; }
+  .alert b { font-weight: 600; }
+  .alert-blue { background: #e8f2fc; border-left: 3px solid #4a90d9; color: #0c447c; }
+  .alert-green { background: #e8f7ed; border-left: 3px solid #2e9e5b; color: #0a4a20; }
+  .alert-purple { background: #f3f0fe; border-left: 3px solid #7c3aed; color: #3b1c8c; }
+
+  .activity { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; gap: 14px; }
+  .activity:last-child { border-bottom: none; }
+  .activity-time { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; min-width: 52px; padding-top: 2px; text-align: right; flex-shrink: 0; }
+  .activity-content { flex: 1; min-width: 0; }
+  .activity-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; line-height: 1.35; }
+  .activity-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .activity-desc a { color: var(--accent3); text-decoration: none; border-bottom: 1px solid rgba(29,53,87,0.25); }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 99px; border: 1px solid; white-space: nowrap; }
+  .tag-flight { background: #e3f0fb; border-color: #b5d4f4; color: #0c447c; }
+  .tag-train  { background: #eeedfe; border-color: #cecbf6; color: #3c3489; }
+  .tag-food   { background: #fef3e0; border-color: #fac775; color: #633806; }
+  .tag-walk   { background: #e3f5ec; border-color: #9fe1cb; color: #085041; }
+  .tag-culture{ background: #faece7; border-color: #f5c4b3; color: #712b13; }
+  .tag-hotel  { background: #f1efe8; border-color: #d3d1c7; color: #444441; }
+  .tag-tip    { background: #1a1410; border-color: #444; color: #faf8f3; }
+  .tag-beer   { background: #fef3e0; border-color: #e8a020; color: #7a3a00; }
+  .tag-bday   { background: #fce7f3; border-color: #f9a8d4; color: #831843; }
+
+  .venue-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 12px; font-weight: 500; color: var(--accent3); text-decoration: none; background: rgba(29,53,87,0.06); border: 1px solid rgba(29,53,87,0.15); border-radius: 99px; padding: 4px 12px; }
+
+  .money-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+  .money-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1rem; box-shadow: var(--shadow); }
+  .money-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .money-amount { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); }
+  .money-note { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  .tips-list { list-style: none; margin-top: 1rem; }
+  .tips-list li { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .tips-list li:last-child { border-bottom: none; }
+  .tips-list li b { color: var(--ink); font-weight: 500; }
+  .tips-bullet { width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: var(--paper); font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+  footer { margin-top: 3rem; padding: 2rem 1.5rem; border-top: 1px solid var(--border); text-align: center; }
+  .footer-eu { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--muted); margin-bottom: 0.5rem; opacity: 0.4; }
+  .footer-text { font-size: 12px; color: var(--muted); }
+
+  /* Day colors by segment */
+  .day-dep    .day-num { background: #e3f0fb; color: #0c447c; }
+  .day-jesenik .day-num { background: #e3f5ec; color: #085041; }
+  .day-sat    .day-num { background: #eeedfe; color: #3c3489; }
+  .day-zbiroh .day-num { background: #f5f1e8; color: var(--gold); }
+  .day-nantes .day-num { background: #e3f5ec; color: #085041; }
+  .day-sables .day-num { background: #fef3e0; color: #633806; }
+  .day-paris  .day-num { background: #faece7; color: #c94b2a; }
+  .day-return .day-num { background: #1a1410; color: #faf8f3; }
+
+  /* Weather */
+  .weather-section { margin-top: 1.25rem; }
+  .weather-widget { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 10px; }
+  .weather-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.1rem 0.6rem; border-bottom: 1px solid var(--border); }
+  .weather-title { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+  .weather-location { font-size: 11px; color: var(--muted); }
+  .weather-updated { font-size: 10px; color: var(--muted); }
+  .weather-scroll { display: flex; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 0.9rem 0.75rem; gap: 8px; }
+  .weather-scroll::-webkit-scrollbar { display: none; }
+  .weather-day { flex: 0 0 auto; width: 80px; background: var(--paper); border: 1px solid var(--border); border-radius: 10px; padding: 0.65rem 0.5rem 0.7rem; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .weather-day.today { background: var(--ink); border-color: var(--ink); }
+  .weather-day-name { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .weather-day.today .weather-day-name { color: rgba(250,248,243,0.6); }
+  .weather-day-date { font-size: 9px; color: var(--muted); margin-bottom: 2px; }
+  .weather-day.today .weather-day-date { color: rgba(250,248,243,0.45); }
+  .weather-icon { font-size: 22px; line-height: 1; margin: 3px 0; }
+  .weather-hi { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1; }
+  .weather-day.today .weather-hi { color: var(--paper); }
+  .weather-lo { font-size: 11px; color: var(--muted); }
+  .weather-day.today .weather-lo { color: rgba(250,248,243,0.5); }
+  .weather-rain { font-size: 10px; color: #4a90d9; font-weight: 500; margin-top: 2px; }
+  .weather-day.today .weather-rain { color: #90caf9; }
+  .weather-rain:empty { display: none; }
+  .weather-loading { padding: 1.5rem; text-align: center; font-size: 13px; color: var(--muted); }
+
+  /* World clock */
+  .wc-wrap { margin: 1.25rem 0 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; }
+  canvas#wcCanvas { width: 100%; display: block; height: 110px; }
+  .wc-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0.85rem 1rem; border-top: 1px solid var(--border); align-items: center; }
+  .wc-chip { background: var(--paper); border: 1px solid var(--border); border-radius: 99px; padding: 5px 12px; display: flex; align-items: center; gap: 7px; font-size: 12px; }
+  .wc-chip-city { font-weight: 600; color: var(--ink); }
+  .wc-chip-time { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .wc-chip-rm { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 15px; line-height: 1; padding: 0 0 0 2px; }
+
+  @media (max-width: 380px) {
+    .booking-grid { grid-template-columns: 1fr; }
+    .money-grid { grid-template-columns: 1fr; }
+    .day-tagline { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Matuska Family · Summer 2026</div>
+    <h1>Czech Republic<br>&amp; France</h1>
+    <div class="hero-sub">Aug 15 – Aug 30 · Jeseník · Prague · Zbiroh · Nantes · Les Sables d'Olonne · Paris</div>
+    <div class="hero-pills">
+      <span class="hero-pill">✈️ 4 flights</span>
+      <span class="hero-pill">🚂 2 trains</span>
+      <span class="hero-pill">🏰 Chateau Zbiroh</span>
+      <span class="hero-pill">🍺 Pilsner Urquell ✅</span>
+      <span class="hero-pill">🌊 Atlantic coast</span>
+      <span class="hero-pill">🗼 Paris overnight</span>
+    </div>
+    
+  </div>
+</div>
+
+<div class="container">
+
+<div class="day-card info-card" style="margin-bottom:12px">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num" style="font-size:18px; background:rgba(184,134,11,0.15); color:var(--gold)">🎫</div>
+    <div class="day-meta">
+      <div class="day-date">Reference</div>
+      <div class="day-title">Bookings &amp; Tickets</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div style="padding:1rem">
+<div class="booking-grid">
+  <div class="booking-card">
+    <div class="booking-airline">✈️ Air Canada · Solenn · SFO</div>
+    <div class="booking-ref">BX6MOH</div>
+    <div class="booking-who">Solenn Matuska · Economy</div>
+    <div class="booking-route">SFO → YYZ → PRG · 8/15</div>
+    <div class="booking-who">Paid: US $577.70</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">✈️ Air Canada · Vilay · LAX</div>
+    <div class="booking-ref">BXLZKJ</div>
+    <div class="booking-who">Vilayvanh Matuska · Prem. Economy</div>
+    <div class="booking-route">LAX → YYZ → PRG · 8/15</div>
+    <div class="booking-who">Paid: US $626.70</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">✈️ Air Canada · Chiara · LAX</div>
+    <div class="booking-ref">BXBF4I</div>
+    <div class="booking-who">Chiara Matuska · Economy</div>
+    <div class="booking-route">LAX → YYZ → PRG · 8/15</div>
+    <div class="booking-who">Paid: US $577.70</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">✈️ Jan · SAS roundtrip</div>
+    <div class="booking-ref">XHXXIU</div>
+    <div class="booking-who">Jan Matuska</div>
+    <div class="booking-route">LAX → CPH → PRG · 7/24</div>
+    <div class="booking-who">Return PRG → LAX · 8/28</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">✈️ Lufthansa · Tait &amp; Emily ARRIVE</div>
+    <div class="booking-ref">LH419</div>
+    <div class="booking-who">Tait &amp; Emily</div>
+    <div class="booking-route">Frankfurt → PRG · 8/22 · 11:15</div>
+    <div class="booking-who">Arrives PRG Terminal 2</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">✈️ Air France · Tait &amp; Emily DEPART</div>
+    <div class="booking-ref">AF1383</div>
+    <div class="booking-who">Tait &amp; Emily</div>
+    <div class="booking-route">PRG → Paris · 8/26 · 05:40</div>
+    <div class="booking-who">⚠️ Airport by 03:30!</div>
+  </div>
+  <div class="booking-card" style="cursor:pointer" onclick="window.open('lh_vilay.pdf');window.open('lh_solenn.pdf');window.open('lh_chia.pdf')">
+    <div class="booking-airline">✈️ Lufthansa · Ladies PRG→NTE</div>
+    <div class="booking-ref">8PFWWD</div>
+    <div class="booking-who">Vilayvanh · Solenn · Chiara</div>
+    <div class="booking-route">PRG → MUC → NTE · 8/24 · 13:20 → 17:35</div>
+    <div class="booking-who">Paid: CZK 20,241 · 🎫 click for e-tickets</div>
+  </div>
+  <div class="booking-card" style="cursor:pointer" onclick="window.open('tgv_vilay.pdf');window.open('tgv_solenn.pdf');window.open('tgv_chia.pdf')">
+    <div class="booking-airline">🚄 TGV INOUI · 3 Ladies</div>
+    <div class="booking-ref">Z3939B</div>
+    <div class="booking-who">Coach 1 · Vilay 123 · Solenn 124 · Chia 119</div>
+    <div class="booking-route">Les Sables → Paris · 8/29 · 15:44</div>
+    <div class="booking-who">Arrives 19:17 · 1st Class · 🎫 click for tickets</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">✈️ Air Tahiti Nui · 3 Ladies home</div>
+    <div class="booking-ref">DN2955</div>
+    <div class="booking-who">Tickets: 437 / 438 / 439</div>
+    <div class="booking-route">CDG → LAX · 8/30 · 12:05</div>
+    <div class="booking-who">CDG Terminal 2D · LAX Tom Bradley</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">🏰 Chateau Zbiroh · 3 Rooms · All 6</div>
+    <div class="booking-ref">3 Rooms</div>
+    <div class="booking-who">Jan+Vilay · Tait+Emily · Solenn+Chia</div>
+    <div class="booking-route">8/23–24 · Free cancellation</div>
+    <div class="booking-who">$345 (2 rms) + $143.54 (1 rm) = $488.54</div>
+    <div class="booking-who" style="color:#c94b2a">⚠️ Update booking: was 8/22, now 8/23 check-in</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">🍺 Pilsner Urquell · ALL 6 · BOOKED ✅</div>
+    <div class="booking-ref">262079047–52</div>
+    <div class="booking-who">Jan · Vilay · Solenn · Chia · Tait · Emily</div>
+    <div class="booking-route">8/23 · 14:30 · English tour</div>
+    <div class="booking-who">430 CZK × 6 · ~€105 total · Dress warm!</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">🏨 Hotel de Paris Montparnasse</div>
+    <div class="booking-ref">6289-383-234</div>
+    <div class="booking-who">PIN: 9585 · 3 ladies · 2 rooms</div>
+    <div class="booking-route">51 Ave du Maine, Paris 14th</div>
+    <div class="booking-who">8/29–30 · ~€315 · +€300 deposit (refunded)</div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-airline">🏡 Les Corderies · Tait &amp; Emily</div>
+    <div class="booking-ref">lescorderies.fr</div>
+    <div class="booking-who">Chambres d'hôtes · Les Sables d'Olonne</div>
+    <div class="booking-route">8/26–29 (after Paris)</div>
+    <div class="booking-who">Emily &amp; Tait join from Paris!</div>
+  </div>
+</div>
+
+<div class="transport-box">
+  <h4>🛫 Aeroplan Numbers — earn miles!</h4>
+  <div class="transport-row"><div class="transport-icon t-blue">✈</div><div class="transport-text"><b>Vilayvanh</b> — #512311218</div></div>
+  <div class="transport-row"><div class="transport-icon t-green">✈</div><div class="transport-text"><b>Chiara</b> — #512310517</div></div>
+  <div class="transport-row"><div class="transport-icon t-amber">✈</div><div class="transport-text"><b>Solenn</b> — activate Aeroplan link from Air Canada email</div></div>
+</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-header"><h2>World Clock</h2><div class="section-line"></div></div>
+<div class="wc-wrap">
+  <canvas id="wcCanvas" width="640" height="110"></canvas>
+  <div class="wc-chips" id="wcChips"></div>
+</div>
+
+<div class="section-header"><h2>7-Day Forecasts</h2><div class="section-line"></div></div>
+<div class="weather-section">
+  <div class="weather-widget">
+    <div class="weather-header">
+      <div><div class="weather-title">Jeseník 🏔️ 🇨🇿</div><div class="weather-location">7 days ahead · Czech mountains</div></div>
+      <div class="weather-updated" id="wu1"></div>
+    </div>
+    <div class="weather-scroll" id="ws1"><div class="weather-loading">Loading…</div></div>
+  </div>
+  <div class="weather-widget">
+    <div class="weather-header">
+      <div><div class="weather-title">Prague 🇨🇿</div><div class="weather-location">7 days ahead · Central Bohemia</div></div>
+      <div class="weather-updated" id="wu2"></div>
+    </div>
+    <div class="weather-scroll" id="ws2"><div class="weather-loading">Loading…</div></div>
+  </div>
+  <div class="weather-widget">
+    <div class="weather-header">
+      <div><div class="weather-title">Les Sables d'Olonne 🌊 🇫🇷</div><div class="weather-location">7 days ahead · Atlantic coast</div></div>
+      <div class="weather-updated" id="wu3"></div>
+    </div>
+    <div class="weather-scroll" id="ws3"><div class="weather-loading">Loading…</div></div>
+  </div>
+</div>
+
+<div class="section-header"><h2>Day by Day</h2><div class="section-line"></div></div>
+
+<!-- 7/24 — JAN DEPARTS -->
+<div class="day-card day-dep">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">7/24</div>
+    <div class="day-meta">
+      <div class="day-date">Fri Jul 24</div>
+      <div class="day-title">Jan Departs LAX → Prague</div>
+      <div class="day-tagline">SAS XHXXIU · LAX 19:10 via Copenhagen</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert"><b>Jan only.</b> Ladies depart August 15.</div>
+    <div class="activity"><div class="activity-time">16:00</div><div class="activity-content">
+      <div class="activity-title">🚗 Leave for LAX · Terminal B (SAS)</div>
+      <div class="activity-desc">SK 932 departs <b>19:10</b> → Copenhagen 15:10 next day · 4h 45min layover · SK 1761 CPH 19:55 → PRG <b>21:15</b>. Booking: XHXXIU.</div>
+      <div class="tags"><span class="tag tag-flight">SK932 / SK1761</span></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/15 — LADIES DEPART -->
+<div class="day-card day-dep">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/15</div>
+    <div class="day-meta">
+      <div class="day-date">Sat Aug 15</div>
+      <div class="day-title">Ladies Depart ✈️</div>
+      <div class="day-tagline">Solenn from SFO · Vilay &amp; Chia from LAX · Both arrive PRG 8/16</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="activity"><div class="activity-time">Solenn</div><div class="activity-content">
+      <div class="activity-title">✈️ SFO → Toronto (YYZ) → Prague · Economy</div>
+      <div class="activity-desc">Air Canada departs SFO <b>11:40</b>. <b>Leave for SFO by 8:00.</b> Arrives PRG Sun 10:50. Booking: BX6MOH.</div>
+      <div class="tags"><span class="tag tag-flight">BX6MOH · Economy</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Vilay &amp; Chia</div><div class="activity-content">
+      <div class="activity-title">✈️ LAX → Toronto (YYZ) → Prague</div>
+      <div class="activity-desc">Air Canada departs LAX <b>11:55</b> T6. <b>Leave for LAX by 8:00.</b> Arrives PRG Sun 10:50. Vilay: BXLZKJ (Prem. Economy) · Chia: BXBF4I (Economy).</div>
+      <div class="tags"><span class="tag tag-flight">BXLZKJ Prem. Eco</span><span class="tag tag-flight">BXBF4I Economy</span></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/16 — ARRIVE PRAGUE + TRAIN TO JESENIK -->
+<div class="day-card day-jesenik">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/16</div>
+    <div class="day-meta">
+      <div class="day-date">Sun Aug 16</div>
+      <div class="day-title">Arrive Prague → Train to Jeseník 🏔️</div>
+      <div class="day-tagline">Land 10:50 · EC 129 dep 13:08 · Change Zábřeh · Arr Jeseník 17:08</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert"><b>All three land PRG T1 at 10:50.</b> Jan meets in arrivals — clear customs, grab bags, get to Praha hl.n. Best train is <b>13:08</b>. Arrive Jeseník <b>17:08</b>.</div>
+    <div class="activity"><div class="activity-time">10:50</div><div class="activity-content">
+      <div class="activity-title">🛬 PRG Terminal 1 · Jan meets you</div>
+      <div class="activity-desc">Clear customs, collect bags. Metro B (Nové Butovice) or Jan drives to Praha Hlavní nádraží — allow ~45 min. Target the 13:08 train.</div>
+    </div></div>
+    <div class="activity"><div class="activity-time">13:08</div><div class="activity-content">
+      <div class="activity-title">🚂 EC 129 Valašský expres · Praha hl.n. → Zábřeh na Moravě</div>
+      <div class="activity-desc">České dráhy. Arrives Zábřeh na Moravě <b>15:11</b>. Change to Sp 1409 (R12) departing <b>15:31</b> → arrives <b>Jeseník 17:08</b>. Total journey 4h. Book on <a href="https://www.cd.cz/en/" target="_blank">cd.cz</a> — 345 Kč/person.</div>
+      <div class="tags"><span class="tag tag-train">EC 129 · dep 13:08</span><span class="tag tag-train">Change Zábřeh 15:11→15:31</span><span class="tag tag-train">Arr Jeseník 17:08</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Later trains</div><div class="activity-content">
+      <div class="activity-title">🚂 Other options if you miss the 13:08</div>
+      <div class="activity-desc">
+        <b>14:45</b> EC 260 Baltic Express → via Lichkov → Jeseník <b>19:08</b> · 539 Kč<br>
+        <b>15:08</b> EC 221 Valašský expres → Zábřeh 17:11, Sp 1411 17:31 → Jeseník <b>19:08</b> · 4h<br>
+        <b>17:08</b> EC 223 Valašský expres → Zábřeh 19:11, Sp 1413 19:34 → Jeseník <b>21:04</b> · 3h 56min
+      </div>
+      <div class="tags"><span class="tag tag-train">dep 14:45 → 19:08</span><span class="tag tag-train">dep 15:08 → 19:08</span><span class="tag tag-train">dep 17:08 → 21:04</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">17:08</div><div class="activity-content">
+      <div class="activity-title">🏠 Home sweet Jeseník</div>
+      <div class="activity-desc">Settle in, breathe mountain air, sauna if needed. The Jeseníky mountains are right outside.</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/17–21 — JESENIK DAYS -->
+<div class="day-card day-jesenik">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/17–21</div>
+    <div class="day-meta">
+      <div class="day-date">Mon Aug 17 – Fri Aug 21</div>
+      <div class="day-title">Jeseník — Home Base 🏔️ 🇨🇿</div>
+      <div class="day-tagline">MTB · spa · Na Rychte · sauna · Majka, Iva &amp; Aleš</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="activity"><div class="activity-time">Outdoors</div><div class="activity-content">
+      <div class="activity-title">🚵 Mountain biking in the Jeseníky</div>
+      <div class="activity-desc">Some of the best mountain biking trails in Czechia. The Hrubý Jeseník range has great XC routes straight from the house. Don't forget helmets!</div>
+      <div class="tags"><span class="tag tag-walk">MTB trails</span><span class="tag tag-walk">Hiking too</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Spa</div><div class="activity-content">
+      <div class="activity-title">🏊 Priessnitz Spa &amp; sauna at home</div>
+      <div class="activity-desc">Jeseník is the birthplace of modern hydrotherapy — Priessnitz Spa is just down the hill. Plus we have a sauna at the house for post-ride recovery.</div>
+    </div></div>
+    <div class="activity"><div class="activity-time">🍽️ Eat</div><div class="activity-content">
+      <div class="activity-title">Na Rychte — our restaurant 🍺</div>
+      <div class="activity-desc">The family local. Must-orders: <b>tatarák</b> (beef tartare, fresh and generous), <b>smažený sýr</b> (fried cheese, a Czech staple). Cold Czech beer. Zero pretension. Pure comfort.</div>
+      <div class="tags"><span class="tag tag-food">Tatarák</span><span class="tag tag-food">Smažený sýr</span><span class="tag tag-beer">Czech draft</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">People</div><div class="activity-content">
+      <div class="activity-title">☀️ Terrace evenings with Majka, Iva &amp; Aleš</div>
+      <div class="activity-desc">The best part of coming home — long evenings on the terrace with family friends. Beer, stories, mountain views. No agenda needed.</div>
+    </div></div>
+    <div class="activity"><div class="activity-time">CZK tip</div><div class="activity-content">
+      <div class="activity-title">💰 Czech Koruna · ~21 CZK = $1</div>
+      <div class="activity-desc">Czech Republic uses CZK (not Euro). ~21 CZK per dollar. Use ATMs or Revolut. Very affordable — meals ~150–300 CZK.</div>
+      <div class="tags"><span class="tag tag-tip">21 CZK = $1</span><span class="tag tag-tip">Not Euro!</span></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/22 — TRAIN BACK, TAIT & EMILY ARRIVE, DINNER -->
+<div class="day-card day-sat">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/22</div>
+    <div class="day-meta">
+      <div class="day-date">Sat Aug 22</div>
+      <div class="day-title">Train Back · Tait &amp; Emily Arrive · Dinner 🍽️</div>
+      <div class="day-tagline">LH419 lands 11:15 · Prague reunion · Dinner · Drive to Zbiroh tomorrow</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert"><b>Tait &amp; Emily arrive 11:15 at PRG T2 (LH419 from Frankfurt).</b> All 6 together in Prague for the first time. Dinner tonight — drive to Zbiroh tomorrow.</div>
+    <div class="activity"><div class="activity-time">Morning</div><div class="activity-content">
+      <div class="activity-title">🚂 Jeseník → Prague Hlavní nádraží</div>
+      <div class="activity-desc">Return journey ~4h 17min. Book return ticket when booking the outbound — one-way each direction.</div>
+      <div class="tags"><span class="tag tag-train">~4.5h</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">11:15</div><div class="activity-content">
+      <div class="activity-title">✈️ Tait &amp; Emily arrive · LH419 from Frankfurt</div>
+      <div class="activity-desc">Arrives PRG Terminal 2. They Bolt into the city and meet the group — no need to pick up, they've been to Prague plenty of times!</div>
+      <div class="tags"><span class="tag tag-flight">LH419 · PRG T2</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Afternoon</div><div class="activity-content">
+      <div class="activity-title">🏙️ Prague afternoon together</div>
+      <div class="activity-desc">Walk around Old Town, catch up, rest before dinner. Everyone has met before — no forced tourist agenda needed.</div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Evening</div><div class="activity-content">
+      <div class="activity-title">🍽️ Dinner in Prague · TBD (book ahead for 6!)</div>
+      <div class="activity-desc">Good options for 6 people: <b>Eska</b> (modern Czech, farm-to-table, Pernerova 49), <b>Field</b> (1 Michelin star, U Radnice 16, Old Town), or <b>SaSaZu</b> (Asian-Czech fusion, Bubenské nábřeží 306). Check availability and book now.</div>
+      <div class="tags"><span class="tag tag-food">6 people · Book now</span><span class="tag tag-food">Smart casual</span></div>
+    </div></div>
+
+  </div>
+</div>
+
+<!-- 8/23 — BREWERY, DRIVE TO ZBIROH -->
+<div class="day-card day-zbiroh">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/23</div>
+    <div class="day-meta">
+      <div class="day-date">Sun Aug 23</div>
+      <div class="day-title">Pilsner Urquell Tour · All Drive to Zbiroh 🍺🏰</div>
+      <div class="day-tagline">Brewery 14:30 · All 6 drive to Zbiroh after · Sleep at chateau</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert"><b>Brewery at 14:30 in Plzeň, then all 6 drive to Zbiroh (~30 min).</b> Ladies fly tomorrow — Jan drops them at PRG T2 by 10:30 Monday morning (leave Zbiroh ~09:00).</div>
+    <div class="activity"><div class="activity-time">Morning</div><div class="activity-content">
+      <div class="activity-title">☕ Prague morning · easy start</div>
+      <div class="activity-desc">Coffee and breakfast in Prague before hitting the road. Drive to Plzeň takes ~1.5h — leave Prague by ~12:30 to arrive comfortable before 14:30.</div>
+    </div></div>
+
+    <div class="activity"><div class="activity-time">14:30</div><div class="activity-content">
+      <div class="activity-title">🍺 Pilsner Urquell Brewery — ALL 6 · BOOKED ✅</div>
+      <div class="activity-desc">Tickets booked: 262079047–262079052. English tour, 430 CZK each. Tour starts at Visitor Center, U Prazdroje 64/7, Plzeň. <b>Arrive 10 min early. No printing needed — e-tickets on phone.</b>
+      <br><br>⚠️ <b>The historic cellars are ~5°C / 41°F.</b> Bring a warm layer — it gets noticeably cold down there. Beer tasting included at the end. Tour ~100 min.</div>
+      <div class="tags"><span class="tag tag-beer">✅ All 6 booked</span><span class="tag tag-tip">🥶 Bring a jacket!</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Evening</div><div class="activity-content">
+      <div class="activity-title">🚗 All 6 drive to Chateau Zbiroh (~30 min from Plzeň)</div>
+      <div class="activity-desc">55km SW of Prague. 3 rooms: <b>Vilay + Jan · Tait + Emily · Solenn + Chia.</b> PIN: 433918. Emily &amp; Tait can explore the venue and grounds this evening.</div>
+      <div class="tags"><span class="tag tag-hotel">All 6 · 3 rooms · PIN 433918</span></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/24 — LADIES FLY, ARRIVE LES SABLES -->
+<div class="day-card day-nantes">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/24</div>
+    <div class="day-meta">
+      <div class="day-date">Mon Aug 24</div>
+      <div class="day-title">Ladies Fly PRG → NTE · Train to Les Sables 🚂🌊</div>
+      <div class="day-tagline">Dep 13:20 PRG · Land NTE 17:35 · Train 19:03 or 20:08</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert"><b>Lufthansa 8PFWWD:</b> PRG T2 dep 13:20 → MUC 14:15 · MUC 15:35 → NTE 17:35. Be at PRG T2 by 10:30. <b>Leave Zbiroh by 09:00</b> — it's ~1h to the airport.</div>
+    <div class="activity"><div class="activity-time">~07:30</div><div class="activity-content">
+      <div class="activity-title">☕ Breakfast at Chateau Zbiroh</div>
+      <div class="activity-desc">Last morning at the chateau. <b>Leave by 09:00</b> sharp — ~1h drive to PRG. Tait &amp; Emily stay on at Zbiroh or continue their own plans.</div>
+    </div></div>
+    <div class="activity"><div class="activity-time">~09:00</div><div class="activity-content">
+      <div class="activity-title">🚗 Jan drives ladies · Zbiroh → PRG Terminal 2</div>
+      <div class="activity-desc">~1h drive. Drop at T2 by 10:30.</div>
+      <div class="tags"><span class="tag tag-tip">Leave Zbiroh 09:00</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">10:30</div><div class="activity-content">
+      <div class="activity-title">✈️ Check in PRG Terminal 2 · LH1691</div>
+      <div class="activity-desc">Jan drops all 3 ladies at T2. Flight 8PFWWD departs 13:20.</div>
+      <div class="tags"><span class="tag tag-flight">8PFWWD · PRG T2</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">17:35</div><div class="activity-content">
+      <div class="activity-title">🛬 Arrive Nantes Atlantique (NTE)</div>
+      <div class="activity-desc">Small, fast airport. Get to Nantes train station in ~20 min. Buy train tickets on SNCF Connect before landing.</div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Option A</div><div class="activity-content">
+      <div class="activity-title">🚂 Nantes 19:03 → Les Sables ~20:32</div>
+      <div class="activity-desc">TER direct, ~1h 29min. Best if bags come quickly. Buy on SNCF Connect app.</div>
+      <div class="tags"><span class="tag tag-train">Dep 19:03 · direct</span></div>
+      <a class="venue-link" href="https://www.sncf-connect.com/en-en/train/route/nantes/les-sables-d-olonne" target="_blank">Book on SNCF Connect →</a>
+    </div></div>
+    <div class="activity"><div class="activity-time">Option B</div><div class="activity-content">
+      <div class="activity-title">🚂 Nantes 20:08 → Les Sables ~21:37</div>
+      <div class="activity-desc">Safer backup. TER direct. Time to grab a bite at the station.</div>
+      <div class="tags"><span class="tag tag-train">Dep 20:08 · safer</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Arrive</div><div class="activity-content">
+      <div class="activity-title">🏖️ Les Sables d'Olonne! Brace for Manola 😅</div>
+      <div class="activity-desc">Grandma Annick will be thrilled. Aunt Manola — the strong-opinioned, cheerfully unattached family voice — will have <i>thoughts</i> about everything. Smile, nod, and enjoy the wine.</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/25–28 — LES SABLES -->
+<div class="day-card day-sables">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/25–28</div>
+    <div class="day-meta">
+      <div class="day-date">Tue Aug 25 – Fri Aug 28</div>
+      <div class="day-title">Les Sables d'Olonne 🌊 🎂</div>
+      <div class="day-tagline">Plage de la Paracou · Family · Birthdays · No driving</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert-purple alert"><b>🎂 Birthday celebrations!</b> Manola's birthday was Aug 21 — celebrate late &amp; properly. And Annick's birthday is also this period — make both feel very special!</div>
+    <div class="alert alert-blue"><b>No driving.</b> Everything on foot. The beach, market, restaurants — all walkable.</div>
+    <div class="activity"><div class="activity-time">Beach</div><div class="activity-content">
+      <div class="activity-title">🏖️ Plage de la Paracou (west of town)</div>
+      <div class="activity-desc">Skip the crowded downtown Grande Plage. Head west to <b>Plage de la Paracou</b> — quieter, wilder, same beautiful Atlantic. Walk or short bus.</div>
+      <div class="tags"><span class="tag tag-walk">Plage de la Paracou</span><span class="tag tag-walk">West of town</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Family</div><div class="activity-content">
+      <div class="activity-title">👵 Grandma Annick &amp; Aunt Manola</div>
+      <div class="activity-desc">Home cooking, family stories, terrace pastis, catching up. <i>Note: Jan is diplomatically staying in Czechia — Annick has her feelings about him, and everyone is happier this way. Let's call it "strategic logistics."</i> 🇨🇿</div>
+      <div class="tags"><span class="tag tag-bday">🎂 Manola's bday (late)</span><span class="tag tag-bday">🎂 Annick's bday</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Market</div><div class="activity-content">
+      <div class="activity-title">🧺 Les Halles covered market · go early</div>
+      <div class="activity-desc">Fresh oysters, local cheeses, vendéen bread, smoked fish. Go morning for best selection. Great for birthday-breakfast ingredients.</div>
+      <div class="tags"><span class="tag tag-food">Morning market</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Restaurants</div><div class="activity-content">
+      <div class="activity-title">🍽️ Good spots (all walkable)</div>
+      <div class="activity-desc">
+        <b>Le P'tit Bar</b> — terrace on stilts over the water. 30-year institution. Book ahead.<br>
+        <b>La Cotriade</b> — harbor views, generous seafood platters.<br>
+        <b>Le Poisson Rouge</b> — colorful waterfront, fresh mussels, seabass. 20 Quai René Guiné.<br>
+        <b>La Vita è Bella</b> — Italian in the fishing port. 5 Quai Emmanuel Garnier. 4.8/5.
+      </div>
+      <div class="tags"><span class="tag tag-food">All on foot</span><span class="tag tag-tip">Book weekend nights</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">8/26</div><div class="activity-content">
+      <div class="activity-title">✈️ Tait &amp; Emily: AF1383 PRG → Paris 05:40</div>
+      <div class="activity-desc">They leave Prague for Paris. ⚠️ Airport by 03:30. After Paris, they travel to Les Sables and stay at <b>Les Corderies</b> chambres d'hôtes (lescorderies.fr) — they'll join the family for the last days!</div>
+      <div class="tags"><span class="tag tag-flight">AF1383 · PRG 05:40</span><span class="tag tag-hotel">Les Corderies</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">TGV tip</div><div class="activity-content">
+      <div class="activity-title">🚄 Pack for the TGV on Aug 29</div>
+      <div class="activity-desc">Max 2 bags + 1 hand bag each. Boarding closes <b>2 min before departure</b> — on platform by 15:15.</div>
+      <div class="tags"><span class="tag tag-tip">Board 2-min rule</span></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/28 — JAN RETURNS -->
+<div class="day-card day-dep">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/28</div>
+    <div class="day-meta">
+      <div class="day-date">Fri Aug 28</div>
+      <div class="day-title">Jan Returns PRG → LAX 🏠</div>
+      <div class="day-tagline">SAS XHXXIU · Arrives LAX 16:50 · Ready for Aug 30 pickup</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert alert-green"><b>Jan home 2 days before ladies fly home.</b> Time to rest, restock, and plan the pickup.</div>
+    <div class="activity"><div class="activity-time">08:00</div><div class="activity-content">
+      <div class="activity-title">🚗 Leave for PRG Terminal 3</div>
+      <div class="activity-desc">SK 768 PRG 10:20 → CPH 11:40 · SK 931 CPH 14:15 → <b>LAX 16:50</b>. Booking: XHXXIU.</div>
+      <div class="tags"><span class="tag tag-flight">SK768 / SK931 · Arrive LAX 16:50</span></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/29 — TGV TO PARIS -->
+<div class="day-card day-paris">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/29</div>
+    <div class="day-meta">
+      <div class="day-date">Sat Aug 29</div>
+      <div class="day-title">TGV to Paris · One Night 🚄 🗼</div>
+      <div class="day-tagline">Les Sables 15:44 → Montparnasse 19:17 · Hotel · Paris evening</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert"><b>Platform by 15:15.</b> French TGV doors close 2 min before departure — no exceptions.</div>
+    <div class="activity"><div class="activity-time">15:44</div><div class="activity-content">
+      <div class="activity-title">🚄 TGV INOUI 8984 · 1st Class · Z3939B</div>
+      <div class="activity-desc">Les Sables → Paris Montparnasse. 3h 33min. Coach 1, Lower Deck. <b>Vilay seat 123 · Solenn seat 124 · Chiara seat 119.</b></div>
+      <div class="tags"><span class="tag tag-train">Z3939B · Coach 1</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">19:17</div><div class="activity-content">
+      <div class="activity-title">🏨 Hotel de Paris Montparnasse · 5-min walk</div>
+      <div class="activity-desc">51 Avenue du Maine, 75014 Paris · ☎️ +33 1 43 22 10 13 · Conf: <b>6289.383.234</b> · PIN: <b>9585</b>. Check-in 15:00–00:00. 2 rooms · 3 ladies (Jan is already home in LA). <b>Note: €300 damage deposit charged 14 days before arrival — refunded after checkout.</b></div>
+      <div class="tags"><span class="tag tag-hotel">6289.383.234 · PIN 9585</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Evening</div><div class="activity-content">
+      <div class="activity-title">🗼 One night in Paris</div>
+      <div class="activity-desc"><b>La Coupole</b> or <b>Le Dôme</b> — grand Montparnasse brasseries, steps from the hotel. Or walk to Luxembourg Gardens. Eiffel Tower sparkles at 10pm — 3 metro stops away.</div>
+      <div class="tags"><span class="tag tag-food">Montparnasse brasserie</span><span class="tag tag-culture">Night walk</span></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 8/30 — HOME -->
+<div class="day-card day-return">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">8/30</div>
+    <div class="day-meta">
+      <div class="day-date">Sun Aug 30</div>
+      <div class="day-title">Breakfast · Uber to CDG · Home ✈️ 🏠</div>
+      <div class="day-tagline">Check out noon · TN7 departs 12:05 · Jan picks up ~14:20</div>
+    </div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="alert"><b>Flight TN7 (Air Tahiti Nui) departs CDG at 12:05.</b> CDG is huge — allow 3+ hours. Leave hotel by <b>09:00 at latest.</b></div>
+    <div class="activity"><div class="activity-time">Morning</div><div class="activity-content">
+      <div class="activity-title">☕ Breakfast near the hotel · last Paris morning</div>
+      <div class="activity-desc">Any corner café on Avenue du Maine — croissant, café crème, OJ. A proper Paris send-off. Keep it quick, you have a flight.</div>
+      <div class="tags"><span class="tag tag-food">Paris café breakfast</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">By 12:00</div><div class="activity-content">
+      <div class="activity-title">🏨 Check out by noon</div>
+    </div></div>
+    <div class="activity"><div class="activity-time">~09:00–09:15</div><div class="activity-content">
+      <div class="activity-title">🚗 Uber → CDG T2D</div>
+      <div class="activity-desc">Book in the Uber app before leaving the hotel. ~45min, ~€60–80. <b>Air Tahiti Nui uses CDG Terminal 2D.</b> Confirm on your ticket. Flight TN7 departs <b>12:05</b> — check in closes 1 hour before. Be there no later than 10:00.</div>
+      <div class="tags"><span class="tag tag-tip">Uber ~09:00</span><span class="tag tag-tip">CDG T2D</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">12:05</div><div class="activity-content">
+      <div class="activity-title">✈️ CDG → LAX · Air Tahiti Nui TN7 · Booking: DN2955</div>
+      <div class="activity-desc">Chia: ticket 437 · Solenn: 438 · Vilay: 439. Arrives LAX Tom Bradley Terminal at 14:20.</div>
+      <div class="tags"><span class="tag tag-flight">TN7 · CDG → LAX · Arrives 14:20</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">14:20</div><div class="activity-content">
+      <div class="activity-title">🏠 Arrive LAX Tom Bradley · Jan picks everyone up</div>
+      <div class="activity-desc">Home ~15:30 — relax, unpack, play with the dog, decompress. Then <b>Jan drives Solenn to Burbank Airport</b> for her onward SFO flight (buy now — Southwest BUR→SFO evenings).</div>
+      <div class="tags"><span class="tag tag-tip">Solenn → BUR after</span></div>
+    </div></div>
+    <div class="activity"><div class="activity-time">Chia</div><div class="activity-content">
+      <div class="activity-title">🎓 Chia: one week before RISD · Sep 3</div>
+      <div class="activity-desc">Book LAX → PVD (Providence, RI) now. One week goes fast.</div>
+      <div class="tags"><span class="tag tag-tip">RISD by Sep 3 · Book LAX→PVD</span></div>
+    </div></div>
+  </div>
+</div>
+
+<hr class="info-divider">
+
+<div class="day-card info-card">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">$</div>
+    <div class="day-meta"><div class="day-date">Reference</div><div class="day-title">Costs Paid</div></div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="money-grid" style="padding:1.25rem">
+      <div class="money-card"><div class="money-label">Solenn · SFO→PRG · Economy</div><div class="money-amount">$577.70</div><div class="money-note">Air Canada BX6MOH</div></div>
+      <div class="money-card"><div class="money-label">Vilay · LAX→PRG · Prem. Economy</div><div class="money-amount">$626.70</div><div class="money-note">Air Canada BXLZKJ</div></div>
+      <div class="money-card"><div class="money-label">Chiara · LAX→PRG · Economy</div><div class="money-amount">$577.70</div><div class="money-note">Air Canada BXBF4I</div></div>
+      <div class="money-card"><div class="money-label">All 3 · PRG→NTE</div><div class="money-amount">CZK 20,241</div><div class="money-note">Lufthansa 8PFWWD (~$900)</div></div>
+      <div class="money-card"><div class="money-label">3× TGV · 1st Class</div><div class="money-amount">€381</div><div class="money-note">SNCF Z3939B · €127 each</div></div>
+      <div class="money-card"><div class="money-label">Zbiroh · 3 Rooms</div><div class="money-amount">$488.54</div><div class="money-note">$345 (2 rms) + $143.54 (1 rm)</div></div>
+      <div class="money-card"><div class="money-label">Pilsner Urquell · 6 Tickets</div><div class="money-amount">CZK 2,580</div><div class="money-note">430 CZK × 6 · ~€105</div></div>
+      <div class="money-card"><div class="money-label">Hotel Paris · 2 rooms · 1 night</div><div class="money-amount">€315</div><div class="money-note">+€300 deposit (refunded) · Conf: 6289.383.234</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="day-card info-card">
+  <div class="day-header" onclick="toggleDay(this)">
+    <div class="day-num">💡</div>
+    <div class="day-meta"><div class="day-date">Reference</div><div class="day-title">Tips &amp; Reminders</div></div>
+    <div class="day-chevron">▼</div>
+  </div>
+  <div class="day-body" style="padding:1.25rem">
+    <ul class="tips-list">
+      <li><div class="tips-bullet">1</div><span><b>Book Jeseník trains</b> — Praha → Jeseník via Zábřeh na Moravě, ~4.5h. Buy one-way tickets on RegioJet or cd.cz.</span></li>
+      <li><div class="tips-bullet">2</div><span><b>Pilsner Urquell brewery — BOOKED ✅</b> — Tickets 262079047–52. 8/23 at 14:30. E-tickets only, no printing. Cellars are 5°C — bring a warm layer!</span></li>
+      <li><div class="tips-bullet">3</div><span><b>CZK not Euro</b> — ~21 CZK = $1. Use ATMs or Revolut. Very affordable.</span></li>
+      <li><div class="tips-bullet">4</div><span><b>Nantes → Les Sables train</b> — buy SNCF Connect tickets before landing. Option A: 19:03. Option B: 20:08. ~€20 each.</span></li>
+      <li><div class="tips-bullet">5</div><span><b>CDG Uber departure ~09:00</b> — flight TN7 departs 12:05. Air Tahiti Nui uses CDG T2D, arrives LAX Tom Bradley 14:20. Allow 3h+.</span></li>
+      <li><div class="tips-bullet">6</div><span><b>TGV boarding closes 2 min before</b> — platform by 15:15. Coach 1 lower deck.</span></li>
+      <li><div class="tips-bullet">7</div><span><b>Tait &amp; Emily AF1383</b> — PRG 05:40, airport by 03:30. Very early — set multiple alarms!</span></li>
+      <li><div class="tips-bullet">8</div><span><b>Paris hotel deposit</b> — €300 charged 14 days before arrival, refunded after checkout. Don't panic when you see the charge.</span></li>
+      <li><div class="tips-bullet">9</div><span><b>Solenn: buy BUR→SFO</b> — Southwest BUR evenings. Buy now.</span></li>
+      <li><div class="tips-bullet">10</div><span><b>Chiara: RISD by Sep 3</b> — book LAX → PVD (Providence) now. One week goes fast.</span></li>
+      <li><div class="tips-bullet">11</div><span><b>Aeroplan</b> — Vilay #512311218 · Chia #512310517. Solenn: activate link from Air Canada email.</span></li>
+      <li><div class="tips-bullet">12</div><span><b>Data in Europe</b> — T-Mobile has free EU roaming. Otherwise Airalo eSIM (€10–15) covers CZ + France.</span></li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <div class="footer-eu">🇨🇿 🏔️ 🍺 🌊 🗼</div>
+  <div class="footer-text">Matuska Family · Jeseník · Zbiroh · Les Sables · Paris · Aug 15–30, 2026</div>
+</footer>
+
+<script>
+function toggleDay(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.day-chevron');
+  body.classList.toggle('open', !body.classList.contains('open'));
+  chev.classList.toggle('open', !chev.classList.contains('open'));
+}
+// WEATHER
+const WMO = c => {
+  if (c===0) return {icon:'☀️'};
+  if (c<=2) return {icon:'🌤️'};
+  if (c<=3) return {icon:'☁️'};
+  if (c<=48) return {icon:'🌫️'};
+  if (c<=57) return {icon:'🌦️'};
+  if (c<=67) return {icon:'🌧️'};
+  if (c<=77) return {icon:'❄️'};
+  if (c<=82) return {icon:'🌧️'};
+  return {icon:'⛈️'};
+};
+async function loadWeather(lat, lon, scrollId, updId) {
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=7`;
+    const d = await (await fetch(url)).json();
+    const { time, weathercode, temperature_2m_max, temperature_2m_min, precipitation_probability_max } = d.daily;
+    const today = new Date().toISOString().slice(0,10);
+    document.getElementById(scrollId).innerHTML = time.map((t,i) => {
+      const dt = new Date(t + 'T12:00:00');
+      const name = dt.toLocaleDateString('en', {weekday:'short'}).toUpperCase();
+      const date = dt.toLocaleDateString('en', {month:'short', day:'numeric'});
+      const w = WMO(weathercode[i]);
+      const rain = precipitation_probability_max[i];
+      const isToday = t === today;
+      return `<div class="weather-day${isToday?' today':''}">
+        <div class="weather-day-name">${name}</div>
+        <div class="weather-day-date">${date}</div>
+        <div class="weather-icon">${w.icon}</div>
+        <div class="weather-hi">${Math.round(temperature_2m_max[i])}°C</div>
+        <div class="weather-lo">${Math.round(temperature_2m_min[i])}°C</div>
+        <div class="weather-rain">${rain > 15 ? rain+'%' : ''}</div>
+      </div>`;
+    }).join('');
+    document.getElementById(updId).textContent = 'Live';
+  } catch(e) {
+    document.getElementById(scrollId).innerHTML = '<div class="weather-loading">Unavailable</div>';
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  loadWeather(50.2333, 17.2000, 'ws1', 'wu1'); // Jeseník
+  loadWeather(50.0755, 14.4378, 'ws2', 'wu2'); // Prague
+  loadWeather(46.4962, -1.7833, 'ws3', 'wu3'); // Les Sables d'Olonne
+});
+
+// WORLD CLOCK — LA, Jeseník, Les Sables
+(function(){
+  const WC_FIXED = [
+    {id:'la',      name:'Los Angeles',    lon:-118.2, lat:34.1, tz:'America/Los_Angeles'},
+    {id:'jesenik', name:'Jeseník',         lon:17.2,  lat:50.2, tz:'Europe/Prague'},
+    {id:'sables',  name:"Les Sables",      lon:-1.78, lat:46.5, tz:'Europe/Paris'},
+  ];
+  const LAND=[
+    [[-168,72],[-140,60],[-130,55],[-124,49],[-122,38],[-118,34],[-110,23],[-97,20],[-90,16],[-84,10],[-80,8],[-83,10],[-87,15],[-97,26],[-90,29],[-82,30],[-80,25],[-75,25],[-74,43],[-68,47],[-65,44],[-75,44],[-82,43],[-84,46],[-88,46],[-96,49],[-110,49],[-124,49],[-130,55],[-140,58],[-155,60],[-165,65],[-168,72]],
+    [[-72,82],[-25,83],[-18,70],[-25,65],[-48,62],[-55,63],[-68,67],[-72,82]],
+    [[-80,12],[-65,10],[-55,5],[-50,0],[-48,-5],[-35,-8],[-35,-13],[-43,-22],[-48,-26],[-52,-34],[-56,-38],[-65,-55],[-69,-55],[-73,-48],[-72,-38],[-70,-20],[-73,-15],[-78,-5],[-80,8],[-80,12]],
+    [[-9,36],[-2,36],[0,38],[3,43],[7,44],[15,46],[18,43],[25,42],[28,41],[36,37],[36,42],[30,48],[24,56],[20,60],[25,65],[27,70],[15,70],[5,62],[0,51],[-5,48],[-6,44],[-9,39],[-9,36]],
+    [[-6,50],[-2,50],[2,52],[0,58],[-4,58],[-8,56],[-6,52],[-6,50]],
+    [[-24,63],[-13,63],[-13,66],[-24,66],[-24,63]],
+    [[-17,14],[-5,37],[10,37],[15,38],[30,32],[32,31],[30,30],[25,-34],[18,-35],[12,-18],[9,-10],[8,4],[2,5],[-8,5],[-13,8],[-17,14]],
+    [[36,37],[42,38],[58,24],[56,22],[44,12],[42,12],[38,15],[37,25],[36,32],[36,37]],
+    [[28,42],[30,50],[40,36],[48,38],[56,42],[60,55],[65,67],[75,73],[90,78],[110,74],[130,72],[142,62],[155,60],[165,55],[175,50],[170,38],[145,35],[140,35],[130,32],[122,30],[110,20],[105,0],[104,-5],[106,-8],[115,-8],[120,2],[108,4],[104,10],[108,20],[110,22],[120,24],[122,30],[130,35],[140,40],[140,48],[130,52],[140,58],[143,62],[155,60],[165,55],[175,50],[178,52],[160,65],[130,70],[110,74],[90,78],[75,73],[65,67],[56,42],[48,38],[42,38],[36,37],[30,48],[24,56],[28,42]],
+    [[68,22],[72,20],[78,8],[80,10],[88,22],[85,28],[80,28],[74,28],[68,22]],
+    [[114,-22],[120,-15],[128,-12],[136,-12],[140,-16],[148,-20],[154,-27],[155,-32],[152,-38],[146,-40],[136,-36],[115,-34],[113,-30],[114,-22]],
+    [[-180,-68],[-120,-65],[-60,-70],[0,-68],[60,-68],[120,-66],[180,-68],[180,-90],[-180,-90],[-180,-68]],
+  ];
+  const W=640,H=110;
+  const toX=lon=>(lon+180)/360*W;
+  const toY=lat=>(90-lat)/180*H;
+  let offscreen=null;
+
+  function initMap(){
+    offscreen=document.createElement('canvas');offscreen.width=W;offscreen.height=H;
+    const c=offscreen.getContext('2d');
+    c.fillStyle='#19385a';c.fillRect(0,0,W,H);
+    c.strokeStyle='rgba(255,255,255,0.06)';c.lineWidth=0.5;
+    [-150,-120,-90,-60,-30,0,30,60,90,120,150].forEach(lon=>{c.beginPath();c.moveTo(toX(lon),0);c.lineTo(toX(lon),H);c.stroke();});
+    [-60,-30,0,30,60].forEach(lat=>{c.beginPath();c.moveTo(0,toY(lat));c.lineTo(W,toY(lat));c.stroke();});
+    c.fillStyle='#2e5e40';
+    LAND.forEach(poly=>{c.beginPath();poly.forEach(([lon,lat],i)=>i===0?c.moveTo(toX(lon),toY(lat)):c.lineTo(toX(lon),toY(lat)));c.closePath();c.fill();});
+  }
+  function sunPos(d){
+    const start=new Date(d.getFullYear(),0,0);const doy=Math.floor((d-start)/86400000);
+    const decl=-23.45*Math.cos(2*Math.PI/365*(doy+10));
+    const utcH=d.getUTCHours()+d.getUTCMinutes()/60+d.getUTCSeconds()/3600;
+    let slon=(12-utcH)*15;slon=((slon+180+360)%360)-180;
+    return {lon:slon,lat:decl};
+  }
+  function drawNight(ctx,slon,slat){
+    const D=Math.PI/180;const sl=Math.abs(slat)<0.8?(slat>=0?0.8:-0.8):slat;
+    const tanSL=Math.tan(sl*D);const pts=[];
+    for(let lon=-180;lon<=180;lon+=1.5){
+      const cosHA=Math.cos((lon-slon)*D);const lat=Math.atan(-cosHA/tanSL)/D;
+      pts.push([toX(lon),toY(Math.max(-89,Math.min(89,lat)))]);
+    }
+    const southNight=sl>0;
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    pts.slice(1).forEach(([x,y])=>ctx.lineTo(x,y));
+    if(southNight){ctx.lineTo(W,H);ctx.lineTo(0,H);}else{ctx.lineTo(W,0);ctx.lineTo(0,0);}
+    ctx.closePath();ctx.fillStyle='rgba(0,8,28,0.54)';ctx.fill();
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    pts.slice(1).forEach(([x,y])=>ctx.lineTo(x,y));
+    ctx.strokeStyle='rgba(255,210,120,0.18)';ctx.lineWidth=3;ctx.stroke();
+  }
+  function drawCities(ctx){
+    WC_FIXED.forEach(c=>{
+      const x=toX(c.lon),y=toY(c.lat);
+      ctx.beginPath();ctx.arc(x,y,7,0,2*Math.PI);ctx.fillStyle='rgba(255,210,60,0.2)';ctx.fill();
+      ctx.beginPath();ctx.arc(x,y,3,0,2*Math.PI);ctx.fillStyle='#ffd040';ctx.fill();
+      ctx.strokeStyle='rgba(0,0,0,0.55)';ctx.lineWidth=0.8;ctx.stroke();
+      ctx.font='700 9px DM Sans,sans-serif';ctx.fillStyle='#fff';
+      ctx.shadowColor='rgba(0,0,0,0.9)';ctx.shadowBlur=4;
+      ctx.fillText(c.name,x+5,y+2);ctx.shadowBlur=0;
+    });
+  }
+  function fmtTime(tz){return new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:tz}).format(new Date());}
+  function renderChips(){
+    const el=document.getElementById('wcChips');if(!el)return;
+    el.innerHTML=WC_FIXED.map(c=>
+      `<div class="wc-chip"><span class="wc-chip-city">${c.name}</span><span class="wc-chip-time">${fmtTime(c.tz)}</span></div>`
+    ).join('');
+  }
+  function draw(){
+    const canvas=document.getElementById('wcCanvas');if(!canvas||!offscreen)return;
+    const ctx=canvas.getContext('2d');ctx.drawImage(offscreen,0,0);
+    const s=sunPos(new Date());const sx=toX(s.lon),sy=toY(s.lat);
+    ctx.beginPath();ctx.arc(sx,sy,10,0,2*Math.PI);ctx.fillStyle='rgba(255,230,80,0.15)';ctx.fill();
+    ctx.beginPath();ctx.arc(sx,sy,5,0,2*Math.PI);ctx.fillStyle='rgba(255,230,80,0.4)';ctx.fill();
+    drawNight(ctx,s.lon,s.lat);drawCities(ctx);renderChips();
+  }
+  document.addEventListener('DOMContentLoaded',()=>{initMap();draw();setInterval(draw,1000);});
+})();
+</script>
+</body>
+</html>
