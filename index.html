@@ -863,17 +863,19 @@ const WMO = c => {
   if (c<=82) return {icon:'🌧️'};
   return {icon:'⛈️'};
 };
-async function loadWeather(lat, lon, scrollId, updId) {
+async function loadWeather(lat, lon, scrollId, updId, attempt = 0) {
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=7`;
-    const d = await (await fetch(url)).json();
-    const { time, weathercode, temperature_2m_max, temperature_2m_min, precipitation_probability_max } = d.daily;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=7`;
+    const resp = await fetch(url, {cache:'no-store'});
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const d = await resp.json();
+    const { time, weather_code, temperature_2m_max, temperature_2m_min, precipitation_probability_max } = d.daily;
     const today = new Date().toISOString().slice(0,10);
     document.getElementById(scrollId).innerHTML = time.map((t,i) => {
       const dt = new Date(t + 'T12:00:00');
       const name = dt.toLocaleDateString('en', {weekday:'short'}).toUpperCase();
       const date = dt.toLocaleDateString('en', {month:'short', day:'numeric'});
-      const w = WMO(weathercode[i]);
+      const w = WMO(weather_code[i]);
       const rain = precipitation_probability_max[i];
       const isToday = t === today;
       return `<div class="weather-day${isToday?' today':''}">
@@ -887,7 +889,11 @@ async function loadWeather(lat, lon, scrollId, updId) {
     }).join('');
     document.getElementById(updId).textContent = 'Live';
   } catch(e) {
-    document.getElementById(scrollId).innerHTML = '<div class="weather-loading">Unavailable</div>';
+    if (attempt < 2) {
+      setTimeout(() => loadWeather(lat, lon, scrollId, updId, attempt + 1), 2500 * (attempt + 1));
+      return;
+    }
+    document.getElementById(scrollId).innerHTML = `<div class="weather-loading">Unavailable · <a href="#" style="color:var(--muted)" onclick="loadWeather(${lat},${lon},'${scrollId}','${updId}');return false">retry</a></div>`;
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
